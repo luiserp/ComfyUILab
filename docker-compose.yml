@@ -16,6 +16,8 @@ services:
       - ./Mounted/ComfyUI/Output:/app/ComfyUI/output  # Monta la carpeta Output
       - ./Mounted/ComfyUI/Login:/app/ComfyUI/login  # Monta la carpeta Login
     restart: unless-stopped
+    platforms:
+        - linux/arm64
     networks:
       - comfyui-net
 

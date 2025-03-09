@@ -30,6 +30,7 @@ RUN /app/ComfyUI/venv/bin/pip install --pre torch torchvision torchaudio --extra
 # Instalar PyTorch con CUDA
 # RUN /app/ComfyUI/venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
 
+
 # Crear un entorno virtual de Python e instalar dependencias
 RUN /app/ComfyUI/venv/bin/pip install --upgrade pip && \
     /app/ComfyUI/venv/bin/pip install -r /app/ComfyUI/requirements.txt
@@ -63,4 +64,4 @@ RUN chmod +x /usr/local/bin/cleanup_comfyui_output.sh
 RUN (echo "0 */12 * * * /usr/local/bin/cleanup_comfyui_output.sh") | crontab -
 
 # Comando para ejecutar ComfyUI
-CMD service cron start && /app/ComfyUI/venv/bin/python /app/ComfyUI/main.py --cpu --listen 0.0.0.0
+CMD service cron start && /app/ComfyUI/venv/bin/python /app/ComfyUI/main.py --listen 0.0.0.0
