@@ -1,36 +1,11 @@
 services:
-  
-  # Cluster 1
-
-  ##################################
-  # COMFYUI
-  ##################################
-  comfyui:
-    build:
-      context: .
-      dockerfile: comfyui.Dockerfile
-    container_name: comfyui
-    volumes:
-      - ./Mounted/ComfyUI/Models:/app/ComfyUI/models  # Monta la carpeta Models
-      - ./Mounted/ComfyUI/CustomNodes:/app/ComfyUI/custom_nodes  # Monta la carpeta CustomNodes
-      - ./Mounted/ComfyUI/Output:/app/ComfyUI/output  # Monta la carpeta Output
-      - ./Mounted/ComfyUI/Login:/app/ComfyUI/login  # Monta la carpeta Login
-    restart: unless-stopped
-    platforms:
-        - linux/arm64
-    networks:
-      - comfyui-net
-
   ##################################
   # CLOUDFLARE TUNNEL
   ##################################
   cloudflared-comfyui:
-      image: cloudflare/cloudflared:latest
-      command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TOKEN}
-      restart: unless-stopped
-      networks:
-          - comfyui-net
-
-networks:
-  comfyui-net:
-    driver: bridge
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TOKEN}
+    restart: unless-stopped
+    network_mode: "host"  # ✅ Allow direct access to your Mac's local network
+    environment:
+      - TUNNEL_URL=http://localhost:8188  # ✅ Forward Cloudflare Tunnel to your local ComfyUI
