@@ -64,4 +64,4 @@ RUN chmod +x /usr/local/bin/cleanup_comfyui_output.sh
 RUN (echo "0 */12 * * * /usr/local/bin/cleanup_comfyui_output.sh") | crontab -
 
 # Comando para ejecutar ComfyUI
-CMD service cron start && /app/ComfyUI/venv/bin/python /app/ComfyUI/main.py --listen 0.0.0.0
+CMD service cron start && /app/ComfyUI/venv/bin/python /app/ComfyUI/main.py --listen 0.0.0.0 --cpu
