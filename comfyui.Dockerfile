@@ -1,5 +1,5 @@
 # FROM ubuntu:22.04
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+FROM ubuntu:22.04
 
 # Evita la instalación de paquetes recomendados y sugeridos
 RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker
