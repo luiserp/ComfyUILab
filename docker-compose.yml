@@ -1,0 +1,45 @@
+services:
+  
+  # Cluster 1
+
+  ##################################
+  # COMFYUI
+  ##################################
+  comfyui:
+    build:
+      context: .
+      dockerfile: comfyui.Dockerfile
+    container_name: comfyui
+    volumes:
+      - ./Mounted/ComfyUI/Models:/app/ComfyUI/models  # Monta la carpeta Models
+      - ./Mounted/ComfyUI/CustomNodes:/app/ComfyUI/custom_nodes  # Monta la carpeta CustomNodes
+      - ./Mounted/ComfyUI/Output:/app/ComfyUI/output  # Monta la carpeta Output
+      - ./Mounted/ComfyUI/Login:/app/ComfyUI/login  # Monta la carpeta Login
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    runtime: nvidia  # Habilita el runtime de NVIDIA
+    networks:
+      - comfyui-net
+
+  ##################################
+  # CLOUDFLARE TUNNEL
+  ##################################
+  cloudflared-comfyui:
+      image: cloudflare/cloudflared:latest
+      command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TOKEN}
+      restart: unless-stopped
+      networks:
+          - comfyui-net
+
+networks:
+  comfyui-net:
+    driver: bridge
