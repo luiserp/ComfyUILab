@@ -25,10 +25,10 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git && \
 RUN python3.11 -m venv /app/ComfyUI/venv
 
 # Instalar PyTorch sin CUDA
-# RUN /app/ComfyUI/venv/bin/pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu
+RUN /app/ComfyUI/venv/bin/pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu
 
 # Instalar PyTorch con CUDA
-RUN /app/ComfyUI/venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
+# RUN /app/ComfyUI/venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
 
 # Crear un entorno virtual de Python e instalar dependencias
 RUN /app/ComfyUI/venv/bin/pip install --upgrade pip && \
